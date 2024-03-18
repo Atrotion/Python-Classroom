@@ -29,7 +29,7 @@ def student_login():
 
     if check_student_credentials(username, password):
         print("Access granted")
-        student_menu()
+        student_menu(username)
     else:
         print("Access denied")
         main()
