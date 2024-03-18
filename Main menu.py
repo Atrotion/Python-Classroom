@@ -1,3 +1,6 @@
+from timetable import *
+
+
 def main():
     print("Welcome!")
     print("1. Login as Admin")
@@ -73,7 +76,20 @@ def student_menu(username):
 
     choice = input("Enter your choice (1-3): ")
     if choice == "1":
-        view_courses()
+        while True:
+            query = courseMenu()
+            if query == 1:
+                print("Available Courses:")
+                for courseID, courseInfo in courses.items():
+                    print(f"{courseID}. {courseInfo['name']}")
+                    for key, value in courseInfo["grouping"].items():
+                        print(f"   {key}. {value}")          
+            elif query == 2:
+                createTimetable(username)
+            elif query == 3:
+                viewCourse(username)
+            elif query == 4:
+                break
     elif choice == "2":
         view_grades()
     elif choice == "3":
@@ -95,11 +111,32 @@ def manage_courses():
 
     choice = input("Enter your choice (1-4): ")
     if choice == "1":
-        add_course()
+        addCourse()
+        manage_courses()
     elif choice == "2":
-        update_course()
+        print("Available Courses:")
+        for courseID, courseInfo in courses.items():
+            print(f"{courseID}. {courseInfo['name']}")
+            for key, value in courseInfo["grouping"].items():
+                print(f"   {key}. {value}")
+        try:
+            courseID = int(input("Which course do you want to update? : "))
+        except ValueError:
+            print("Please enter a valid course ID")
+        updateCourse(courseID)
+        manage_courses()
     elif choice == "3":
-        delete_course()
+        print("Available Courses:")
+        for courseID, courseInfo in courses.items():
+            print(f"{courseID}. {courseInfo['name']}")
+            for key, value in courseInfo["grouping"].items():
+                print(f"   {key}. {value}")
+        try:
+            courseID = int(input("Which course do you want to delete? : "))
+        except ValueError:
+            print("Please enter a valid course ID")       
+        deleteCourse()
+        manage_courses()
     elif choice == "4":
         admin_menu()
     else:
@@ -141,18 +178,6 @@ def delete_student():
             if not line.startswith(username + ":"):
                 file.write(line)
     print("Student deleted successfully.")
-
-def add_course():
-    print("Add Course functionality")
-
-def update_course():
-    print("Update Course functionality")
-
-def delete_course():
-    print("Delete Course functionality")
-
-def view_courses():
-    print("View Courses functionality")
 
 def view_grades():
     print("View Grades functionality")

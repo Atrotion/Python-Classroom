@@ -5,8 +5,8 @@ courses = {
         1: {
             "name": "Programming Principles",
             "grouping": {
-                1: "PEP 1: G1-G3, 8am - 10am",
-                2: "PEP 2: G4-G6, 3pm - 5pm"
+                1: "PEP1: G1-G3, 8am - 10am",
+                2: "PEP2: G4-G6, 3pm - 5pm"
             }
         },
         2:{
@@ -166,4 +166,16 @@ def deleteCourse(courseID):
         index += 1
     courses.clear()
     courses.update(newCourses)
+
+def courseMenu():
+    print("Course Menu")
+    print("1. View all available courses")
+    print("2. Register for Courses")
+    print("3. View timetable")
+    print("4. Exit")
+    try:
+        query = int(input("What do you want to do?: "))
+    except ValueError:
+        print("Please enter a number")
+    return query
 
