@@ -69,12 +69,11 @@ def admin_menu():
 def student_menu(username):
     print("\nStudent Menu:")
     print("1. View Courses")
-    print("2. View Grades")
-    print("3. Submit assignment")
-    print("4. Check assignment status")
-    print("5. Logout")
+    print("2. Submit assignment")
+    print("3. Check assignment status")
+    print("4. Logout")
 
-    choice = input("Enter your choice (1-3): ")
+    choice = input("Enter your choice (1-4): ")
     if choice == "1":
         while True:
             query = courseMenu()

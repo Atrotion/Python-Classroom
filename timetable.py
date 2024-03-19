@@ -174,7 +174,7 @@ def courseMenu():
     print("3. View timetable")
     print("4. Exit")
     try:
-        query = int(input("What do you want to do?: "))
+        query = int(input("Enter your choice (1-4): "))
     except ValueError:
         print("Please enter a number")
     return query
