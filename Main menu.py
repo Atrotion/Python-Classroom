@@ -78,11 +78,7 @@ def student_menu(username):
         while True:
             query = courseMenu()
             if query == 1:
-                print("Available Courses:")
-                for courseID, courseInfo in courses.items():
-                    print(f"{courseID}. {courseInfo['name']}")
-                    for key, value in courseInfo["grouping"].items():
-                        print(f"   {key}. {value}")          
+                courseList()
             elif query == 2:
                 createTimetable(username)
             elif query == 3:
@@ -111,30 +107,24 @@ def manage_courses():
     choice = input("Enter your choice (1-4): ")
     if choice == "1":
         addCourse()
+        courseList()
         manage_courses()
     elif choice == "2":
-        print("Available Courses:")
-        for courseID, courseInfo in courses.items():
-            print(f"{courseID}. {courseInfo['name']}")
-            for key, value in courseInfo["grouping"].items():
-                print(f"   {key}. {value}")
+        courseList()
         try:
             courseID = int(input("Which course do you want to update? : "))
-        except ValueError:
             print("Please enter a valid course ID")
-        updateCourse(courseID)
+            updateCourse(courseID)
+        except ValueError:
+            print("Please enter a valid ID")
         manage_courses()
     elif choice == "3":
-        print("Available Courses:")
-        for courseID, courseInfo in courses.items():
-            print(f"{courseID}. {courseInfo['name']}")
-            for key, value in courseInfo["grouping"].items():
-                print(f"   {key}. {value}")
+        courseList()
         try:
-            courseID = int(input("Which course do you want to delete? : "))
+            courseID = int(input("Which course do you want to delete? : "))      
+            deleteCourse()
         except ValueError:
-            print("Please enter a valid course ID")       
-        deleteCourse()
+            print("Please enter a valid course ID") 
         manage_courses()
     elif choice == "4":
         admin_menu()

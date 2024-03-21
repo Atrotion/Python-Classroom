@@ -96,18 +96,17 @@ def addCourse():
         courseName = input("Enter the name of the course: ")
         courseCode = input("Enter course code: ")
         amount = int(input("How many groups? "))
+        courseGrouping = {}  
         for i in range(amount):
-            courseGrouping = input("Enter groups: ")
-            courseTime = input("Enter timeslot: ")
-    except ValueError:
-        print("Please enter appropriate values")
-        courseOption = f"{courseCode}: {courseGrouping}, {courseTime}"
-        courseID = len(courses) + 1
-
-        courses[courseID] = {'name': courseName, 'grouping': {1:courseOption}}
+            group = input("Enter group: ")
+            time = input("Enter timeslot: ")
+            courseGrouping[i + 1] = f"{group}, {time}"  
+        courses[courseCode] = {'name': courseName, 'grouping': courseGrouping}  
         print("Course added successfully")
         return courses
-
+    except ValueError:
+        print("Please enter appropriate values")
+    
 def viewCourse(studentID):
     found = False
     with open("timetables_StudentID.txt", "r") as file:
@@ -178,4 +177,11 @@ def courseMenu():
     except ValueError:
         print("Please enter a number")
     return query
+
+def courseList():
+    print("Available Courses:")
+    for courseID, courseInfo in courses.items():
+        print(f"{courseID}. {courseInfo['name']}")
+        for key, value in courseInfo["grouping"].items():
+            print(f"   {key}. {value}")
 
