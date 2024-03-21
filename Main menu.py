@@ -156,6 +156,7 @@ def add_student():
     with open("Students.txt", "a") as file:
         file.write(f"{username}:{password}\n")
     print("Student added successfully.")
+    admin_menu()
 
 def delete_student():
     username = input("Enter student's username to delete: ")
@@ -167,6 +168,7 @@ def delete_student():
             if not line.startswith(username + ":"):
                 file.write(line)
     print("Student deleted successfully.")
+    admin_menu()
 
 def view_grades():
     print("View Grades functionality")
