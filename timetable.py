@@ -78,6 +78,7 @@ courses = loadCourses()
 
 #Create student timetable
 def createTimetable(studentID):
+    courses = loadCourses()
     print("Available Courses:")
     for courseID, courseInfo in courses.items():
         print(f"{courseID}. {courseInfo['name']}")
@@ -129,6 +130,7 @@ def createTimetable(studentID):
 
 #Adding a new course
 def addCourse():
+    courses = loadCourses()
     try:
         nextIndex = max(courses.keys(), default = 0) + 1
         courseName = input("Enter the name of the course: ")
@@ -161,6 +163,7 @@ def viewCourse(studentID):
                 print(line.strip())
 
 def updateCourse(courseID):
+    courses = loadCourses()
     if courseID not in courses:
         print("Invalid course ID.")
         return
@@ -197,6 +200,7 @@ def updateCourse(courseID):
         print("Please enter a number.")
     
 def deleteCourse(courseID):
+    courses = loadCourses()
     if courseID not in courses:
         print("Invalid Course ID.")
         return
@@ -228,6 +232,7 @@ def courseMenu():
 
 def courseList():
     #for ease of use
+    courses = loadCourses()
     print("Available Courses:")
     for courseID, courseInfo in courses.items():
         print(f"{courseID}. {courseInfo['name']}")
