@@ -121,7 +121,7 @@ def manage_courses():
         courseList()
         try:
             courseID = int(input("Which course do you want to delete? : "))      
-            deleteCourse()
+            deleteCourse(courseID)
             manage_courses()
         except ValueError:
             print("Please enter a valid course ID") 
