@@ -39,13 +39,42 @@ courses = {
         }
     }
 
+#save courses to a text file
 def saveCourses(courses):
     with open("courses.txt", "w") as file:
         for courseID, courseInfo in courses.items():
-            file.write(f" {courseID}. {courseInfo['name']}\n")
+            file.write(f"{courseID}. {courseInfo['name']}\n")
             for option, details in courseInfo['grouping'].items():
                 file.write(f"   {option}. {details}\n")
-            file.write("\n")
+            file.write("\n") #spacing for clarity
+
+#read text file for courses
+def loadCourses():
+    loadedCourses = {}
+    with open("courses.txt", "r") as file:
+        courseID = 1 #index
+        courseInfo = {}
+        for line in file:
+            if line.strip():  
+                if line.startswith(" "):  #Grouping
+                    parts = line.strip().split(". ")
+                    groupID = int(parts[0])
+                    groupInfo = parts[1]
+                    courseInfo["grouping"][groupID] = groupInfo
+                else:  #CourseName
+                    if courseInfo:
+                        loadedCourses[courseID] = courseInfo
+                        courseID += 1
+                    courseInfo = {}
+                    parts = line.strip().split(". ")
+                    courseInfo["name"] = parts[1]
+                    courseInfo["grouping"] = {}
+        # Add the last course
+        if courseInfo:
+            loadedCourses[courseID] = courseInfo
+    return loadedCourses
+
+courses = loadCourses()
 
 #Create student timetable
 def createTimetable(studentID):
@@ -60,7 +89,7 @@ def createTimetable(studentID):
     try:
         amount = int(input("How many courses do you want to register for?: "))
         if amount <= 0:
-            print("You must register for at least one course.")
+            print("You must register for at least one course.") #Error Handling
             return
     except ValueError:
         print("Please enter a valid number of courses.")
@@ -104,7 +133,7 @@ def addCourse():
         nextIndex = max(courses.keys(), default = 0) + 1
         courseName = input("Enter the name of the course: ")
         if courseName in courses:
-            print("Course already exists.")
+            print("Course already exists.") #Error Handling
         amount = int(input("How many groups? "))
         courseGrouping = {}  
         for i in range(amount):
@@ -114,7 +143,7 @@ def addCourse():
             courseGrouping[i + 1] = f"{courseCode}: {group}, {time}"  
         courses[nextIndex] = {'name': courseName, 'grouping': courseGrouping}  
         print("Course added successfully")
-        saveCourses(courses)
+        saveCourses(courses) #Save new courses
     except ValueError:
         print("Please enter appropriate values")
     
@@ -135,6 +164,7 @@ def updateCourse(courseID):
     if courseID not in courses:
         print("Invalid course ID.")
         return
+    #For clarity
     print(f"Current details for course {courseID} are as follows: ")
     print(f"Name: {courses[courseID]['name']}")
     print("Grouping: ")
@@ -146,21 +176,25 @@ def updateCourse(courseID):
     print("2. Course Details")
     try:
         choice = int(input("Your choice : "))
-        print("Please enter a valid choice")
         if choice == 1:
             newName = input("Enter new course name: ")
             courses[courseID]['name'] = newName
         elif choice == 2:
-            amount = int(input("How many groups?"))
+            amount = int(input("How many groups? "))
+            newDetails = {}
             for i in range(amount):
                 newCode = input("Enter new course code: ")
                 newGrouping = input("Enter groups: ")
                 newTimeslot = input("Enter timeslot: ")
-            courseDetails = f"{newCode}: {newGrouping}, {newTimeslot}"
-            courses[courseID] = {'grouping': {1:courseDetails}}
-        saveCourses(courses)
+                newDetails[i + 1] = f"{newCode}: {newGrouping}, {newTimeslot}"
+            courses[courseID]['grouping'] = newDetails
+        else:
+            print("Please enter a valid choice.")
+            return
+        saveCourses(courses) #Save new course details
+        print("Course details updated successfully.")
     except ValueError:
-        print("Plese enter a number")
+        print("Please enter a number.")
     
 def deleteCourse(courseID):
     if courseID not in courses:
@@ -174,12 +208,13 @@ def deleteCourse(courseID):
     index = 1
     for oldcourseID, courseInfo in courses.items():
         newCourses[index] = courseInfo
-        index += 1
+        index += 1 #Reindex the entries so that its coherent
     courses.clear()
     courses.update(newCourses)
     saveCourses(courses)
 
 def courseMenu():
+    #for clarity
     print("Course Menu")
     print("1. View all available courses")
     print("2. Register for Courses")
@@ -187,16 +222,15 @@ def courseMenu():
     print("4. Exit")
     try:
         query = int(input("Enter your choice (1-4): "))
-        return query
     except ValueError:
         print("Please enter a number")
+    return query
 
 def courseList():
+    #for ease of use
     print("Available Courses:")
     for courseID, courseInfo in courses.items():
         print(f"{courseID}. {courseInfo['name']}")
         for key, value in courseInfo["grouping"].items():
             print(f"   {key}. {value}")
 
-
-saveCourses(courses)

@@ -113,19 +113,18 @@ def manage_courses():
         courseList()
         try:
             courseID = int(input("Which course do you want to update? : "))
-            print("Please enter a valid course ID")
             updateCourse(courseID)
+            manage_courses()
         except ValueError:
             print("Please enter a valid ID")
-        manage_courses()
     elif choice == "3":
         courseList()
         try:
             courseID = int(input("Which course do you want to delete? : "))      
             deleteCourse()
+            manage_courses()
         except ValueError:
             print("Please enter a valid course ID") 
-        manage_courses()
     elif choice == "4":
         admin_menu()
     else:
