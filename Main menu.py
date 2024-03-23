@@ -84,11 +84,7 @@ def student_menu(username):
         while True:
             query = courseMenu()
             if query == 1:
-                print("Available Courses:")
-                for courseID, courseInfo in courses.items():
-                    print(f"{courseID}. {courseInfo['name']}")
-                    for key, value in courseInfo["grouping"].items():
-                        print(f"   {key}. {value}")          
+                courseList()
             elif query == 2:
                 createTimetable(username)
             elif query == 3:

@@ -1,24 +1,20 @@
 1. Programming Principles
-   1. PEP1: G1-G3, 8am - 10am
-   2. PEP2: G4-G6, 3pm - 5pm
+   1. PEP1: G1-G3, 8:00am - 10:00am
+   2. PEP2: G4-G6, 1:00pm - 3:00pm
 
 2. Mathematics
    1. MT1: G1-G3, 8:15am - 10:15am
    2. MT2: G4-G6, 3:30pm - 5:30pm
 
 3. Web Design
-   1. WD1: G1-G3, 10am - 12pm
-   2. WD2: G4-G6, 1pm - 3pm
+   1. WD1: G1-G3, 10:00am - 12:00pm
+   2. WD2: G4-G6, 9:30am - 11:30am
 
 4. Database Fundamentals
    1. DF1: G1-G3, 8:30am - 10:30am
-   2. DF2: G4-G6 2pm - 4pm
+   2. DF2: G4-G6 2:00pm - 4:00pm
 
 5. English
-   1. ENG 1: G1-G3, 9am-11am
-   2. ENG 2: G4-G6, 4pm-6pm
-
-6. Cybersecurity
-   1. CS1: G1-G3, 9-11
-   2. CS2: G4-G6, 2-4
+   1. ENG1: G1-G3, 9:00am - 11:00am
+   2. ENG2: G4-G6, 4:00pm - 6:00pm
 

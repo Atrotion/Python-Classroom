@@ -5,8 +5,8 @@ courses = {
         1: {
             "name": "Programming Principles",
             "grouping": {
-                1: "PEP1: G1-G3, 8am - 10am",
-                2: "PEP2: G4-G6, 3pm - 5pm"
+                1: "PEP1: G1-G3, 8:00am - 10:00am",
+                2: "PEP2: G4-G6, 1:00pm - 3:00pm"
             }
         },
         2:{
@@ -19,25 +19,26 @@ courses = {
         3: {
             "name": "Web Design",
             "grouping": {
-                1: "WD1: G1-G3, 10am - 12pm",
-                2: "WD2: G4-G6, 1pm - 3pm"
+                1: "WD1: G1-G3, 10:00am - 12:00pm",
+                2: "WD2: G4-G6, 9:30am - 11:30am"
             }
         },
         4: {
             "name": "Database Fundamentals",
             "grouping": {
                 1: "DF1: G1-G3, 8:30am - 10:30am",
-                2: "DF2: G4-G6 2pm - 4pm"
+                2: "DF2: G4-G6 2:00pm - 4:00pm"
             }
         },
         5: {
             "name": "English",
             "grouping": {
-                1: "ENG 1: G1-G3, 9am-11am",
-                2: "ENG 2: G4-G6, 4pm-6pm"
+                1: "ENG1: G1-G3, 9:00am - 11:00am",
+                2: "ENG2: G4-G6, 4:00pm - 6:00pm"
             }
         }
     }
+
 
 #save courses to a text file
 def saveCourses(courses):
