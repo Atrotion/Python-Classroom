@@ -1,0 +1,25 @@
+
+
+Adrian:
+PEP1: G1-G3, 8:00am - 10:00am
+ENG2: G4-G6, 4:00pm - 6:00pm
+
+
+Ashar:
+MT2: G4-G6, 3:30pm - 5:30pm
+
+
+Flavian:
+MT1: G1-G3, 8:15am - 10:15am
+DF2: G4-G6 2:00pm - 4:00pm
+ENG2: G4-G6, 4:00pm - 6:00pm
+
+
+Cyril:
+WD2: G4-G6, 9:30am - 11:30am
+DF2: G4-G6 2:00pm - 4:00pm
+
+
+Leong:
+PEP2: G4-G6, 1:00pm - 3:00pm
+

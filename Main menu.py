@@ -1,6 +1,5 @@
 from timetable import *
 
-
 def main():
     print("Welcome!")
     print("1. Login as Admin")
