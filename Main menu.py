@@ -50,10 +50,11 @@ def admin_menu():
     print("1. Manage Courses")
     print("2. Manage Students")
     print("3. Update Assignments")
-    print("4. Logout")
+    print("4. Display Attendance")
+    print("5. Logout")
 
     # Get user choice
-    choice = input("Enter your choice (1-4): ")
+    choice = input("Enter your choice (1-5): ")
     if choice == "1":
         manage_courses()
     elif choice == "2":
@@ -61,41 +62,99 @@ def admin_menu():
     elif choice == "3":
         update_assignment_status()
     elif choice == "4":
+        attendance_display()
+    elif choice == "5":
         print("Logging out...")
+        main()
     else:
         print("Invalid choice. Please enter a number from 1 to 4.")
         admin_menu()
 
+
 def student_menu(username):
     print("\nStudent Menu:")
     print("1. View Courses")
-    print("2. Submit assignment")
-    print("3. Check assignment status")
-    print("4. Logout")
+    print("2. View Grades")
+    print("3. Submit assignment")
+    print("4. Check assignment status")
+    print("5. Mark Attendance")
+    print("6. Logout")
 
-    choice = input("Enter your choice (1-4): ")
+    choice = input("Enter your choice (1-6): ")
     if choice == "1":
         while True:
             query = courseMenu()
             if query == 1:
-                courseList()
+                print("Available Courses:")
+                for courseID, courseInfo in courses.items():
+                    print(f"{courseID}. {courseInfo['name']}")
+                    for key, value in courseInfo["grouping"].items():
+                        print(f"   {key}. {value}")          
             elif query == 2:
                 createTimetable(username)
             elif query == 3:
                 viewCourse(username)
             elif query == 4:
                 break
+        student_menu(username)
+        
     elif choice == "2":
         view_grades()
+        student_menu(username)
     elif choice == "3":
         submit_assignment(username)
+        student_menu(username)
     elif choice == "4":
         check_assignment_status(username)
+        student_menu(username)
     elif choice == "5":
-        print("Logging out...")
-    else:
-        print("Invalid choice. Please enter a number from 1 to 3.")
-        student_menu()
+        mark_attendance()
+        student_menu(username)
+    elif choice == "6":
+        main()
+
+subject_attendance = {}
+
+def attendance_display():
+    attendance_file = "attendance_StudentID.txt"
+
+    with open(attendance_file, "r") as File:
+        rows = File.readlines()
+        for row in rows:
+            print(row, end = '  ')
+        print()
+    
+
+def mark_attendance():
+    attendance_file = "attendance_StudentID.txt"
+    
+    course_code = input("Enter course code [e.g.XXX1234]: ")
+    student_id = input("Enter Student ID [e.g.23415332]: ")
+    class_time = input("Enter Class Time [e.g.12PM-2PM]: ")
+
+    attendance_data = f"{course_code}, {student_id}, {class_time},PRESENT\n"
+
+    with open(attendance_file, "a") as file:
+        file.write(attendance_data)
+
+    if course_code not in subject_attendance:
+        subject_attendance[course_code] = {'total': 0, 'attended': 0}
+    subject_attendance[course_code]['total'] += 1
+    subject_attendance[course_code]['attended'] += 1
+
+    print(f"{course_code}, {student_id}, {class_time}, PRESENT")
+
+
+def display_subject_attendance():
+    for course_code, data in subject_attendance.items():
+        total_class = data['total']
+        attended_class = data['attended']
+        if total_class == 0:
+            percentage = 0
+        else:
+            percentage = (attended_class / total_class) * 100
+        print(f"Attendance Percentage for course {course_code}: {percentage:.2f}%")
+    admin_menu()
 
 def manage_courses():
     print("\nCourse Management Menu:")
