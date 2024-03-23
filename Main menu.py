@@ -67,20 +67,19 @@ def admin_menu():
         print("Logging out...")
         main()
     else:
-        print("Invalid choice. Please enter a number from 1 to 4.")
+        print("Invalid choice. Please enter a number from 1 to 5.")
         admin_menu()
 
 
 def student_menu(username):
     print("\nStudent Menu:")
     print("1. View Courses")
-    print("2. View Grades")
-    print("3. Submit assignment")
-    print("4. Check assignment status")
-    print("5. Mark Attendance")
-    print("6. Logout")
+    print("2. Submit assignment")
+    print("3. Check assignment status")
+    print("4. Mark Attendance")
+    print("5. Logout")
 
-    choice = input("Enter your choice (1-6): ")
+    choice = input("Enter your choice (1-5): ")
     if choice == "1":
         while True:
             query = courseMenu()
@@ -99,19 +98,18 @@ def student_menu(username):
         student_menu(username)
         
     elif choice == "2":
-        view_grades()
-        student_menu(username)
-    elif choice == "3":
         submit_assignment(username)
         student_menu(username)
-    elif choice == "4":
+    elif choice == "3":
         check_assignment_status(username)
         student_menu(username)
-    elif choice == "5":
-        mark_attendance()
+    elif choice == "4":
+        mark_attendance(username)
         student_menu(username)
-    elif choice == "6":
+    elif choice == "5":
         main()
+
+
 
 subject_attendance = {}
 
@@ -125,11 +123,11 @@ def attendance_display():
         print()
     
 
-def mark_attendance():
+def mark_attendance(username):
     attendance_file = "attendance_StudentID.txt"
     
     course_code = input("Enter course code [e.g.XXX1234]: ")
-    student_id = input("Enter Student ID [e.g.23415332]: ")
+    student_id = username
     class_time = input("Enter Class Time [e.g.12PM-2PM]: ")
 
     attendance_data = f"{course_code}, {student_id}, {class_time},PRESENT\n"
@@ -228,63 +226,105 @@ def delete_student():
     print("Student deleted successfully.")
     admin_menu()
 
-def view_grades():
-    print("View Grades functionality")
 
 # Function to submit an assignment
 def submit_assignment(username):
-    # Get input from the user
-    student_username = username
-    course_code = input("Enter course code: ")
-    assignment_name = input("Enter assignment name: ")
-    submission_status = "Submitted"  # Assuming the submission status is initially set to "Submitted"
+    try:
+        # Get input from the user
+        student_username = username
+        course_code = input("Enter course code: ")
+        assignment_name = input("Enter assignment name: ")
+        submission_status = "Submitted"  # Assuming the submission status is initially set to "Submitted"
 
-    # Write the assignment details to the assignments file
-    with open("assignments_StudentID.txt", "a") as file:
-        file.write(f"{student_username}:{course_code}:{assignment_name}:{submission_status}\n")
-    print("Assignment submitted successfully.")
+        assignment_found = False
+
+        # Write the assignment details to the assignments file
+        with open("assignments_StudentID.txt", "r") as file:
+            for line in file:
+                parts = line.strip().split(":")
+                if len(parts) == 4:
+                    stored_username, stored_course_code, stored_assignment_name, stored_status = parts
+                    if stored_course_code == course_code and stored_assignment_name == assignment_name and stored_status == submission_status:
+                        print("Assignment already submitted.")
+                        assignment_found = True
+                        break
+                else:
+                    print("Invalid format in assignments file:", line)
+        if not assignment_found:
+            with open("assignments_StudentID.txt", "a") as file:
+                file.write(f"{student_username}:{course_code}:{assignment_name}:{submission_status}\n")
+            print("Assignment submitted sucessfully.")
+    except Exception as e:
+        print("An error occurred while submitting the assignment", e)
+    
+    choice = input("Do you want to enter another assignment? (Enter y/n): ")
+    if choice.lower() == "y":
+        submit_assignment(username)
+    else:
+        student_menu(username)
 
 # Function to check the status of an assignment
 def check_assignment_status(username):
-    # Get input from the user
-    student_username = username
-    course_code = input("Enter course code: ")
-    assignment_name = input("Enter assignment name: ")
-    submission_status = "Not Submitted"  # Default status if not found
+    try:
+        # Get input from the user
+        student_username = username
+        course_code = input("Enter course code: ")
+        assignment_name = input("Enter assignment name: ")
+        submission_status = "Not Submitted"  # Default status if not found
 
-    # Read the assignment details from the assignments file and check status
-    with open("assignments_StudentID.txt", "r") as file:
-        for line in file:
-            stored_username, stored_course_code, stored_assignment_name, stored_status = line.strip().split(":")
-            if stored_username == student_username and stored_course_code == course_code and stored_assignment_name == assignment_name:
-                submission_status = stored_status
-                break
+        # Read the assignment details from the assignments file and check status
+        with open("assignments_StudentID.txt", "r") as file:
+            for line in file:
+                stored_username, stored_course_code, stored_assignment_name, stored_status = line.strip().split(":")
+                if stored_username == student_username and stored_course_code == course_code and stored_assignment_name == assignment_name:
+                    submission_status = stored_status
+                    # Print the assignment status
+                    print(f"Assignment '{assignment_name}' status for course '{course_code}': {submission_status}")
+                    break
+                else:
+                    print("Assignment not found.")
+    except Exception as e:
+        print("An error occured while checking the assignment status:", e)
+    
+    choice = input("Do you want to continue? (Enter y/n): ")
+    if choice.lower() == "y":
+        student_menu(username)
+    else:
+        print("Logging out...")
 
-    # Print the assignment status
-    print(f"Assignment '{assignment_name}' status for course '{course_code}': {submission_status}")
 
 # Function to update assignment status
 def update_assignment_status():
-    # Get input from the user
-    student_username = input("Enter student's username: ")
-    course_code = input("Enter course code: ")
-    assignment_name = input("Enter assignment name: ")
-    new_status = input("Enter new status: ")
+    try:
+        # Get input from the user
+        student_username = input("Enter student's username: ")
+        course_code = input("Enter course code: ")
+        assignment_name = input("Enter assignment name: ")
+        new_status = input("Enter new status: ")
 
-    # Read assignment details from the assignments file and update status
-    with open("assignments_StudentID.txt", "r") as file:
-        lines = file.readlines()
+        # Read assignment details from the assignments file and update status
+        with open("assignments_StudentID.txt", "r") as file:
+            lines = file.readlines()
 
-    with open("assignments_StudentID.txt", "w") as file:
-        for line in lines:
-            stored_username, stored_course_code, stored_assignment_name, stored_status = line.strip().split(":")
-            if stored_username == student_username and stored_course_code == course_code and stored_assignment_name == assignment_name:
-                line = f"{stored_username}:{stored_course_code}:{stored_assignment_name}:{new_status}\n"
-            else:
-                print("Assignment not found.")
-            file.write(line)
+        with open("assignments_StudentID.txt", "w") as file:
+            assignment_found = False
+            for line in lines:
+                stored_username, stored_course_code, stored_assignment_name, stored_status = line.strip().split(":")
+                if stored_username == student_username and stored_course_code == course_code and stored_assignment_name == assignment_name:
+                    line = f"{stored_username}:{stored_course_code}:{stored_assignment_name}:{new_status}\n"
+                    assignment_found = True
+                file.write(line)
+        if assignment_found:
+            print("Assignment status updated successfully.")
+        else:
+            print("Assignment not found")
+    except Exception as e:
+        print("An error occured while updating the assignment status:", e)
+    
 
-    print("Assignment status updated successfully.")
+    print("Logging out...")
+    
+
 
 if __name__ == "__main__":
     main()
